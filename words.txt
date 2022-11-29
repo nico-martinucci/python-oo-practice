@@ -1,0 +1,6 @@
+cat
+coffee
+beansprout
+dog
+window
+plants
