@@ -5,35 +5,35 @@ class WordFinder:
 
     def __init__(self, path):
         """Constructor for new word finder based on file at path"""
-        file = open(path)
-        self.words = file.read().splitlines()
-        print(f"{len(self.words)} words read")
-        # call self.method that prints word length
+        self.path = path
+        file = open(self.path)
+        self.words = self.parse(file)
+        self.report_list_length()
 
     def __repr__(self):
-        return f"<>"
+        return f"<WordFinder path={self.path} num_of_words={len(self.words)}>"
 
     def random(self):
         """returns random word from instance's words property"""
         randomNum = randint(0, len(self.words)-1)
         return self.words[randomNum]
-    # method that prints word length -- "A"
+
     def report_list_length(self):
-        
+        """prints number of words read"""
+        print(f"{len(self.words)} words read")
+
+    def parse(self, file):
+        """Reads file and collects lines into list"""
+        return file.read().splitlines()
+
 
 class SpecialWordFinder(WordFinder):
     """SPECIAL Word Finder!"""
 
-    def __init__(self, path):
-        """Constructor for new SPECIAL word finder, based on file at path"""
-        super().__init__(path)
-        self.scrub_blanks_and_hashes()
-    
-    def scrub_blanks_and_hashes(self):
-        """Scrubs out all empty lines and lines starting with '#'"""
-        self.words = [
-            word for word in self.words 
-            if word and (not word[0] == "#")
-        ]
+    def parse(self, file):
+        """Reads file and collects lines into list. Scrubs out all empty lines and lines starting with '#'"""
 
-    # redefine method "A" here
+        return [
+            word for word in super().parse(file)
+            if word and (not word.startswith("#"))
+        ]
